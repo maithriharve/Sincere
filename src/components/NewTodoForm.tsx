@@ -19,16 +19,14 @@ export const NewTodoForm = () => {
     event.preventDefault();
     const { error } = await requestCreateTodo({ title: newTask });
 
-    if (error) {
-      setError("Unable to set to-do, please try again!");
-      setIsVisible(true);
-      return;
+    setError(error ? "Unable to set to-do, please try again!" : null);
+    setIsVisible(!!error);
+
+    if (!error) {
+      mutate(todos);
+      setNewTask('');
     }
 
-    mutate(todos);
-    setNewTask('');
-    setError(null); // Set error message to null once a to do is added successfully
-    setIsVisible(false);
   };
 
   const handleTodoUpdate = async (todo: Todo, isCompleted: boolean) => {
@@ -50,8 +48,8 @@ export const NewTodoForm = () => {
 
   return (
     <>
-      {showError && <div className="flow-root text-red-600 flex flex-col space-y-2 rounded-xl border border-red-600 bg-red-50 p-4 sm:flex-row sm:space-x-2 sm:space-y-0">{error}
-        <HiXMark onClick={handleErrorClose} className="float-right" />
+      {showError && <div className="flow-root text-red-600 font-medium rounded-xl border border-red-600 bg-red-50 p-4 sm:flex-row sm:space-x-2 sm:space-y-0">{error}
+        <HiXMark onClick={handleErrorClose} className="float-right text-2xl" />
       </div>
       }
       <form className="flex flex-col space-y-2 rounded-xl border border-stone-200 bg-stone-50 p-4 sm:flex-row sm:space-x-2 sm:space-y-0">
@@ -80,7 +78,9 @@ export const NewTodoForm = () => {
 
       </form>
       {incompleteTodos.length > 0 && (
-        <div className="font-sans text-2xl font-medium">Incomplete {incompleteTodos.length}</div>
+        <div className="flex items-center font-sans text-2xl font-medium">Incomplete 
+        <div className="m-2 w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-lg">{incompleteTodos.length}</div>
+        </div>
       )}
       {incompleteTodos.map((todo) => (
         <TodoItem
@@ -92,7 +92,8 @@ export const NewTodoForm = () => {
         />
       ))}
       {completedTodos.length > 0 && (
-        <div className="font-sans text-2xl font-medium">Completed {completedTodos.length}</div>
+        <div className="flex items-center font-sans text-2xl font-medium">Completed 
+        <div className="m-2 w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-lg">{completedTodos.length}</div></div>
       )}
       {completedTodos.map((todo) => (
         <TodoItem
