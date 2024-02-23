@@ -77,7 +77,7 @@ export const NewTodoForm = () => {
         </button>
 
       </form>
-      {incompleteTodos.length > 0 && (
+      {incompleteTodos.length > 0 && ( // Believe thre's probably an opportunity to pull all the below into a new component, since there's a lot of repeated code. TODO perhaps
         <div className="flex items-center font-sans text-2xl font-medium">Incomplete 
         <div className="m-2 w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-lg">{incompleteTodos.length}</div>
         </div>
