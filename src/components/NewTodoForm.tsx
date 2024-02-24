@@ -1,9 +1,8 @@
 import { useTodos } from '@/hooks/useTodos';
 import { useState } from 'react';
-import { requestDeleteTodo, requestUpdateTodo, requestCreateTodo, Todo } from '@/lib/todos-lib';
-import { HiCheckCircle, HiXMark } from "react-icons/hi2";
-import { RiCheckboxBlankCircleLine } from "react-icons/ri"; // I'm sorry this isn't from the Heroicons 2 library — I couldn't find an appropriate empty circle within there! 
-import { TodoItem } from './TodoItem';
+import { requestCreateTodo } from '@/lib/todos-lib';
+import { HiXMark } from "react-icons/hi2";
+import { ToDoList } from './TodoList';
 
 
 export const NewTodoForm = () => {
@@ -27,17 +26,6 @@ export const NewTodoForm = () => {
       setNewTask('');
     }
 
-  };
-
-  const handleTodoUpdate = async (todo: Todo, isCompleted: boolean) => {
-    todo.completed = isCompleted;
-    await requestUpdateTodo(todo);
-    mutate(todos);
-  };
-
-  const handleTodoDelete = async (id: string) => {
-    await requestDeleteTodo(id);
-    mutate(todos);
   };
 
   const handleErrorClose = () => {
@@ -75,35 +63,14 @@ export const NewTodoForm = () => {
         >
           Add
         </button>
-
       </form>
-      {incompleteTodos.length > 0 && ( // Believe thre's probably an opportunity to pull all the below into a new component, since there's a lot of repeated code. TODO perhaps
-        <div className="flex items-center font-sans text-2xl font-medium">Incomplete 
-        <div className="m-2 w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-lg">{incompleteTodos.length}</div>
-        </div>
-      )}
-      {incompleteTodos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onTodoUpdate={handleTodoUpdate}
-          onTodoDelete={handleTodoDelete}
-          Icon={RiCheckboxBlankCircleLine}
-        />
-      ))}
-      {completedTodos.length > 0 && (
-        <div className="flex items-center font-sans text-2xl font-medium">Completed 
-        <div className="m-2 w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-lg">{completedTodos.length}</div></div>
-      )}
-      {completedTodos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onTodoUpdate={handleTodoUpdate}
-          onTodoDelete={handleTodoDelete}
-          Icon={HiCheckCircle}
-        />
-      ))}
+      <ToDoList
+        todos={incompleteTodos}
+        isComplete={false}
+      />
+      <ToDoList
+        todos={completedTodos}
+        isComplete={true} />
     </>
   );
 };
