@@ -2,17 +2,12 @@ import { useTodos } from '@/hooks/useTodos';
 import { useState } from 'react';
 import { requestCreateTodo } from '@/lib/todos-lib';
 import { HiXMark } from "react-icons/hi2";
-import { ToDoList } from './TodoList';
-
 
 export const NewTodoForm = () => {
   const { todos, mutate } = useTodos();
   const [newTask, setNewTask] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isErrorVisible, setIsVisible] = useState(error != null);
-
-  const completedTodos = todos.filter((todo) => todo.completed);
-  const incompleteTodos = todos.filter((todo) => !todo.completed);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -64,13 +59,6 @@ export const NewTodoForm = () => {
           Add
         </button>
       </form>
-      <ToDoList
-        todos={incompleteTodos}
-        isComplete={false}
-      />
-      <ToDoList
-        todos={completedTodos}
-        isComplete={true} />
     </>
   );
 };
