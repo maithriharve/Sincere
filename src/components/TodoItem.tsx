@@ -1,3 +1,6 @@
+/**
+ * Component for rendering a TodoItem
+ */
 import React from 'react';
 import { Todo } from '@/lib/todos-lib';
 import { HiTrash } from 'react-icons/hi2';
@@ -26,3 +29,5 @@ export const TodoItem = ({ todo, onTodoUpdate, onTodoDelete, Icon }: TodoItemPro
         </div>
     )
 };
+
+export default TodoItem;
