@@ -24,10 +24,10 @@ export const ToDoList = () => {
         mutate(todos);
     };
 
-    const Header = ({ title, counter }: { title: string, counter: number }) => {
+    const Header = ({ header, counter }: { header: string, counter: number }) => {
         return (
             <div className="flex items-center font-sans text-2xl font-medium">
-                {title}
+                {header}
                 <div className="m-2 w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-lg">
                     {counter}
                 </div>
@@ -41,7 +41,7 @@ export const ToDoList = () => {
     return (
         <>
             {incompleteTodos.length > 0 && (
-                <Header title="Incomplete" counter={incompleteTodos.length} />
+                <Header header="Incomplete" counter={incompleteTodos.length} />
             )}
             {incompleteTodos.map((todo) => (
                 <TodoItem
@@ -53,7 +53,7 @@ export const ToDoList = () => {
                 />
             ))}
             {completedTodos.length > 0 && (
-                <Header title="Completed" counter={completedTodos.length} />
+                <Header header="Completed" counter={completedTodos.length} />
             )}
             {completedTodos.map((todo) => (
                 <TodoItem
