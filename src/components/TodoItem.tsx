@@ -1,5 +1,5 @@
 /**
- * Component for rendering a TodoItem
+ * Component for rendering a TodoItem and associated functions with a to-do list item — updating todos, and deleting todos.
  */
 import React from 'react';
 import { requestDeleteTodo, requestUpdateTodo, Todo } from '@/lib/todos-lib';
@@ -21,7 +21,13 @@ export const TodoItem = ({ todo, Icon }: TodoItemProps) => {
         await requestUpdateTodo(todo);
         mutate(todos);
     };
-    const handleTodoDelete = async (id: string) => {
+    const handleTodoDelete = async (id: string, event: React.FormEvent) => {
+        // Making sure that calling handleTodoDelete doesn't also call handleTodoUpdate, which occurs the divs are nested below.
+        // Calling handleTodoUpdate when handleTodoDelete is called causes a console error, which I'm trying to avoid! 
+        // Normally I would steer away from using event functions and dig deeper to render the divs differently, 
+        // but for time purposes, I hope this will work for now!
+        event.stopPropagation(); 
+
         await requestDeleteTodo(id);
         mutate(todos);
     };
@@ -33,7 +39,7 @@ export const TodoItem = ({ todo, Icon }: TodoItemProps) => {
             onClick={() => handleTodoUpdate(todo, !todo.completed)}
         >
             <Icon className={`text-2xl inline ${Icon === HiCheckCircle ? 'fill-green-600' : ''}`} /> {todo.title}
-            <div className="float-right hidden group-hover:block" onClick={() => handleTodoDelete(todo.id)}>
+            <div className="float-right hidden group-hover:block" onClick={(event) => handleTodoDelete(todo.id, event)}> 
                 <HiTrash className="hover:fill-red-600 text-xl" />
             </div>
         </button>
