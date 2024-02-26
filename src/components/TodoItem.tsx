@@ -1,5 +1,5 @@
 /**
- * Component for rendering a TodoItem and associated functions with a to-do list item — updating todos, and deleting todos.
+ * Component for rendering a TodoItem and associated functions with a to-do list item — updating and deleting todos.
  */
 import React from 'react';
 import { requestDeleteTodo, requestUpdateTodo, Todo } from '@/lib/todos-lib';

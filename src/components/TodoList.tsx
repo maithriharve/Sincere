@@ -1,11 +1,38 @@
 /**
- * Component for rendering a list of TodoItems
+ * Component for rendering a list of TodoItems, also contains a component TodoListSection to reduce code duplication.
  */
 import { useTodos } from '@/hooks/useTodos';
 import { HiCheckCircle } from "react-icons/hi2";
+import { Todo } from '@/lib/todos-lib';
 import { RiCheckboxBlankCircleLine } from "react-icons/ri"; // I'm sorry this isn't from the Heroicons 2 library — I couldn't find an appropriate empty circle within there! 
 import TodoItem from './TodoItem';
 
+interface TodoListSectionProps {
+    todos: Todo[],
+    title: string,
+    Icon: React.ElementType;
+}
+const TodoListSection = ({ todos, title, Icon }: TodoListSectionProps) => {
+    return (
+        <>
+            {todos.length > 0 && (
+                <div className="flex items-center font-sans text-2xl font-medium">
+                    {title}
+                    <div className="m-2 w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-lg">
+                        {todos.length}
+                    </div>
+                </div>
+            )}
+            {todos.map((todo) => (
+                <TodoItem
+                    key={todo.id}
+                    todo={todo}
+                    Icon={Icon}
+                />
+            ))}
+        </>
+    );
+};
 
 export const ToDoList = () => {
 
@@ -13,46 +40,20 @@ export const ToDoList = () => {
     const completedTodos = todos.filter((todo) => todo.completed);
     const incompleteTodos = todos.filter((todo) => !todo.completed);
 
-    const Header = ({ header, counter }: { header: string, counter: number }) => {
-        return (
-            <div className="flex items-center font-sans text-2xl font-medium">
-                {header}
-                <div className="m-2 w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-lg">
-                    {counter}
-                </div>
-            </div>
-        );
-    };
-
-    // Figure there may be a better way to optimize rendering the incomplete + complete todo lists without duplicating code, 
-    // perhaps by creating a TodoListSection component. Decided against this *for now* to reduce overcomplication; prop-drilling can occur, 
-    // and I would still be rendering two separate components for incomplete + complete lists if I stuck with my current approach! 
     return (
-        <>
-            {incompleteTodos.length > 0 && (
-                <Header header="Incomplete" counter={incompleteTodos.length} />
-            )}
-            {incompleteTodos.map((todo) => (
-                <TodoItem
-                    key={todo.id}
-                    todo={todo}
-                    Icon={RiCheckboxBlankCircleLine}
-                />
-            ))}
-            {completedTodos.length > 0 && (
-                <Header header="Completed" counter={completedTodos.length} />
-            )}
-            {completedTodos.map((todo) => (
-                <TodoItem
-                    key={todo.id}
-                    todo={todo}
-                    Icon={HiCheckCircle}
-                />
-            ))}
-        </>
-
+     <>
+         <TodoListSection
+             todos={incompleteTodos}
+              title="Incomplete"
+              Icon={RiCheckboxBlankCircleLine}
+         />
+          <TodoListSection
+             todos={completedTodos}
+             title="Completed"
+             Icon={HiCheckCircle}
+         />
+     </>
     )
-
 };
 
 export default ToDoList;
