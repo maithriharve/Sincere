@@ -1,7 +1,6 @@
 /**
  * Component for rendering a list of TodoItems
  */
-import { requestDeleteTodo, requestUpdateTodo, Todo } from '@/lib/todos-lib';
 import { useTodos } from '@/hooks/useTodos';
 import { HiCheckCircle } from "react-icons/hi2";
 import { RiCheckboxBlankCircleLine } from "react-icons/ri"; // I'm sorry this isn't from the Heroicons 2 library — I couldn't find an appropriate empty circle within there! 
@@ -10,19 +9,9 @@ import TodoItem from './TodoItem';
 
 export const ToDoList = () => {
 
-    const { todos, mutate } = useTodos();
+    const { todos } = useTodos();
     const completedTodos = todos.filter((todo) => todo.completed);
     const incompleteTodos = todos.filter((todo) => !todo.completed);
-
-    const handleTodoUpdate = async (todo: Todo, isCompleted: boolean) => {
-        todo.completed = isCompleted;
-        await requestUpdateTodo(todo);
-        mutate(todos);
-    };
-    const handleTodoDelete = async (id: string) => {
-        await requestDeleteTodo(id);
-        mutate(todos);
-    };
 
     const Header = ({ header, counter }: { header: string, counter: number }) => {
         return (
@@ -47,8 +36,6 @@ export const ToDoList = () => {
                 <TodoItem
                     key={todo.id}
                     todo={todo}
-                    onTodoUpdate={handleTodoUpdate}
-                    onTodoDelete={handleTodoDelete}
                     Icon={RiCheckboxBlankCircleLine}
                 />
             ))}
@@ -59,8 +46,6 @@ export const ToDoList = () => {
                 <TodoItem
                     key={todo.id}
                     todo={todo}
-                    onTodoUpdate={handleTodoUpdate}
-                    onTodoDelete={handleTodoDelete}
                     Icon={HiCheckCircle}
                 />
             ))}
