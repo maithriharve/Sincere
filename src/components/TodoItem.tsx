@@ -38,8 +38,7 @@ export const TodoItem = ({ todo, Icon }: TodoItemProps) => {
             className="group flow-root w-full !mt-auto transition-opacity hover:bg-gray-50 rounded flex items-center px-3 py-2 text-lg font-medium text-left"
             onClick={() => handleTodoUpdate(todo, !todo.completed)}
         >
-            <Icon className={`mr-2 text-4xl inline ${Icon === HiCheckCircle ? 'fill-green-600' : 'text-gray-400 group-hover:text-gray-500'}`} /> 
-            <span className="inline">{todo.title}</span>
+            <Icon className={`mr-2 text-4xl inline ${Icon === HiCheckCircle ? 'fill-green-600' : 'text-gray-400 group-hover:text-gray-500'}`} /> {todo.title}
             <div className="ml-auto float-right hidden group-hover:block hover:text-red-600 text-2xl" onClick={(event) => handleTodoDelete(todo.id, event)}> 
                 <HiOutlineTrash  />
             </div>
