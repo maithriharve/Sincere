@@ -4,7 +4,7 @@
 import React from 'react';
 import { requestDeleteTodo, requestUpdateTodo, Todo } from '@/lib/todos-lib';
 import { useTodos } from '@/hooks/useTodos';
-import { HiTrash } from 'react-icons/hi2';
+import { HiOutlineTrash } from "react-icons/hi2";
 import { HiCheckCircle } from "react-icons/hi2";
 
 interface TodoItemProps {
@@ -26,7 +26,7 @@ export const TodoItem = ({ todo, Icon }: TodoItemProps) => {
         // Calling handleTodoUpdate when handleTodoDelete is called causes a console error, which I'm trying to avoid! 
         // Normally I would steer away from using event functions and dig deeper to render the divs differently, 
         // but for time purposes, I hope this will work for now!
-        event.stopPropagation(); 
+        event.stopPropagation();
 
         await requestDeleteTodo(id);
         mutate(todos);
@@ -35,12 +35,13 @@ export const TodoItem = ({ todo, Icon }: TodoItemProps) => {
     return (
         <button
             type="submit"
-            className="group flow-root w-full rounded border border-stone-200 px-3 py-3 text-lg font-medium transition-opacity text-left hover:bg-gray-100"
+            className="group flow-root w-full !mt-auto transition-opacity hover:bg-gray-100 rounded flex items-center px-3 py-2 text-lg font-medium text-left"
             onClick={() => handleTodoUpdate(todo, !todo.completed)}
         >
-            <Icon className={`text-2xl inline ${Icon === HiCheckCircle ? 'fill-green-600' : ''}`} /> {todo.title}
-            <div className="float-right hidden group-hover:block" onClick={(event) => handleTodoDelete(todo.id, event)}> 
-                <HiTrash className="hover:fill-red-600 text-xl" />
+            <Icon className={`mr-2 text-4xl inline ${Icon === HiCheckCircle ? 'fill-green-600' : 'text-gray-400 group-hover:text-gray-500'}`} /> 
+            <span className="inline">{todo.title}</span>
+            <div className="ml-auto float-right hidden group-hover:block hover:text-red-600 text-2xl" onClick={(event) => handleTodoDelete(todo.id, event)}> 
+                <HiOutlineTrash  />
             </div>
         </button>
     )
