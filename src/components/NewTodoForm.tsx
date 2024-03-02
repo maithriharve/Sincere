@@ -13,7 +13,7 @@ export const NewTodoForm = () => {
     event.preventDefault();
     const { error } = await requestCreateTodo({ title: newTask });
 
-    setError(error ? "Unable to set to-do, please try again!" : null);
+    setError(error ? "Oops, there was a problem!" : null);
     setIsVisible(!!error);
 
     if (!error) {
@@ -31,7 +31,7 @@ export const NewTodoForm = () => {
 
   return (
     <>
-      {showError && <div className="flow-root text-red-600 font-medium rounded-xl border border-red-600 bg-red-50 p-4 sm:flex-row sm:space-x-2 sm:space-y-0">{error}
+      {showError && <div className="flow-root text-red-600 font-semibold rounded-xl border border-red-600 bg-red-50 p-4 sm:flex-row sm:space-x-2 sm:space-y-0">{error}
         <HiXMark onClick={handleErrorClose} className="float-right text-2xl" />
       </div>
       }

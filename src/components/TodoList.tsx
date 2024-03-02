@@ -16,19 +16,22 @@ const TodoListSection = ({ todos, title, Icon }: TodoListSectionProps) => {
     return (
         <>
             {todos.length > 0 && (
-                <div className="flex items-center font-sans text-2xl font-medium">
+                <div className="flex items-center font-sans text-2xl font-medium border-b border-stone-200 py-2 !mb-2">
                     {title}
-                    <div className="m-2 w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-lg">
+                    <div className="m-2 w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center text-white text-base">
                         {todos.length}
                     </div>
                 </div>
             )}
             {todos.map((todo) => (
-                <TodoItem
-                    key={todo.id}
-                    todo={todo}
-                    Icon={Icon}
-                />
+                <>
+                    <TodoItem
+                        key={todo.id}
+                        todo={todo}
+                        Icon={Icon}
+                    />
+                    <div className="border-b border-gray-300 !m-2" />
+                </>
             ))}
         </>
     );
@@ -41,18 +44,18 @@ export const ToDoList = () => {
     const incompleteTodos = todos.filter((todo) => !todo.completed);
 
     return (
-     <>
-         <TodoListSection
-             todos={incompleteTodos}
-              title="Incomplete"
-              Icon={RiCheckboxBlankCircleLine}
-         />
-          <TodoListSection
-             todos={completedTodos}
-             title="Completed"
-             Icon={HiCheckCircle}
-         />
-     </>
+        <>
+            <TodoListSection
+                todos={incompleteTodos}
+                title="Incomplete"
+                Icon={RiCheckboxBlankCircleLine}
+            />
+            <TodoListSection
+                todos={completedTodos}
+                title="Completed"
+                Icon={HiCheckCircle}
+            />
+        </>
     )
 };
 
